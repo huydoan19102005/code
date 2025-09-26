@@ -1,7 +1,7 @@
 function Exercise3() {
     // Destructuring object lồng nhau, city mặc định "Unknown City"
     const person = {
-        name: "Huy",
+        name: "",
         address: {
             street: "Mai Di"
             // city không có

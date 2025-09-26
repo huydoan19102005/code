@@ -14,5 +14,3 @@ console.log(sum(1,2,3));        // 6
 console.log(sum(1,'x',4));      // 5
 console.log(avg(1,2,3,4));      // 2.50
 console.log(avg());             // 0
-
-
