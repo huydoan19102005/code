@@ -1,0 +1,85 @@
+.text-orange {
+    color: #e58f2a !important;
+}
+
+.exercise5 {
+    padding-bottom: 30px;
+}
+
+.py-2 {
+    padding-top: 1.5rem !important;
+    padding-bottom: .5rem !important;
+}
+
+.gap-3 {
+    gap: 2rem !important;
+}
+
+/* Students grid styles */
+.students-section {
+    margin-bottom: 2rem;
+}
+
+.student-card {
+    border: 1px solid #eee;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.student-card .student-img {
+    object-fit: cover;
+}
+
+.student-card .student-body {
+    padding: 12px 16px;
+}
+
+.student-card .student-meta {
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.student-card .student-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+.student-card .form-check {
+    font-size: 12px;
+}
+
+.student-card .btn-submit {
+    padding: 4px 10px;
+    font-size: 12px;
+    border-radius: 4px;
+}
+
+.student-card .student-row {
+    display: flex;
+    justify-content: space-around;
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+/* Orange submit button */
+.btn-orange{
+    background-color: #f0932b;
+    border: 1px solid #d67f1e;
+    color: #fff;
+    padding: 4px 12px;
+    font-size: 12px;
+    line-height: 1.2;
+    border-radius: 4px;
+}
+.btn-orange:hover{
+    background-color: #e58f2a;
+    border-color: #cc7a19;
+    color: #fff;
+}
+
+/* Footer color */
+.footer-bar{
+    background-color: orange;
+}

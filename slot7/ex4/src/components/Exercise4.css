@@ -1,0 +1,173 @@
+/* Exercise4 Styles */
+.exercise4 {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Top dark bar */
+.top-bar {
+    height: 4px;
+    background-color: #333;
+    width: 100%;
+}
+
+/* Header */
+.header {
+    background-color: #ff8c00;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.logo-container {
+    margin-bottom: 15px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.fpt-f {
+    color: #0066cc;
+}
+
+.fpt-p {
+    color: #ff8c00;
+}
+
+.fpt-t {
+    color: #00cc66;
+}
+
+.education {
+    color: #0066cc;
+    margin-left: 5px;
+}
+
+.university {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ff8c00;
+    background-color: #fff;
+    padding: 5px 15px;
+    display: inline-block;
+    border-radius: 3px;
+}
+
+.navigation {
+    margin-top: 15px;
+}
+
+.nav-link {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 20px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #ffd700;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    background-color: #fff;
+    padding: 40px 20px;
+}
+
+.about-section,
+.contact-section {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.section-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.section-text {
+    font-size: 16px;
+    color: #333;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Footer */
+.footer {
+    background-color: #ffb366;
+    padding: 15px 0;
+    text-align: center;
+}
+
+.copyright {
+    color: #fff;
+    font-size: 14px;
+    margin: 0;
+}
+
+.col-12 {
+    flex: 0 0 auto;
+    width: 100%;
+    text-align: center;
+}
+
+.col-12 h2 {
+    font-weight: bold;
+}
+
+.img-fluid {
+    width: 40%;
+}
+
+.py-3 {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+}
+
+.text-center small {
+    font-size: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .logo {
+        font-size: 20px;
+    }
+
+    .university {
+        font-size: 16px;
+    }
+
+    .nav-link {
+        margin: 0 10px;
+        font-size: 14px;
+    }
+
+    .section-title {
+        font-size: 24px;
+    }
+
+    .main-content {
+        padding: 30px 15px;
+    }
+}
+
+/* Override Bootstrap bg-warning color for Exercise 4 header only */
+.ex4-warning-scope {
+    --bs-warning-rgb: 234, 143, 46;
+    /* adjust to your orange */
+    --bs-bg-opacity: 1;
+
+}

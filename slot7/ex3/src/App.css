@@ -1,0 +1,54 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+
+.bg-orange {
+  background-color: #f8a200; /* Màu cam cho nền */
+}
+
+.text-white {
+  color: white; /* Màu chữ trắng */
+}
+
+.card-body {
+  background-color: #fff0e6; /* Màu nền cho phần thông tin sinh viên */
+}
+
+/* Thêm các tùy chỉnh khác tùy ý */
