@@ -2,66 +2,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './home.css';
 
-// Import pizza images
 import pizza1 from './pizza2.jpg';
 import pizza2 from './pizza1.jpg';
 import pizza3 from './pizza3.jpg';
 import pizza4 from './pizza4.jpg';
 import pizza5 from './pizza5.jpg';
 
-export default function Home() {
+export default function Body() {
     return (
-        <div style={{ backgroundColor: '#333333', minHeight: '100vh' }}>
-            {/* Header */}
-            <div style={{ backgroundColor: '#333333', padding: '15px 0' }}>
-                <div className="container d-flex align-items-center justify-content-between">
-                    <div className="d-flex align-items-center gap-4">
-                        <div className="logo-text" style={{ 
-                            fontSize: '28px', 
-                            fontWeight: 'bold', 
-                            color: '#fff', 
-                            textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
-                            letterSpacing: '1px'
-                        }}>
-                            Pizza House
-                        </div>
-                        <a href="#" className="text-white text-decoration-none" style={{ fontSize: '16px' }}>Home</a>
-                        <a href="#" className="text-white text-decoration-none" style={{ fontSize: '16px' }}>About Us</a>
-                        <a href="#" className="text-white text-decoration-none" style={{ fontSize: '16px' }}>Contact</a>
-                    </div>
-                    <form className="d-flex" role="search" onSubmit={(e) => e.preventDefault()}>
-                        <div className="d-flex" style={{ width: 250 }}>
-                            <input 
-                                className="form-control form-control-sm" 
-                                type="search" 
-                                placeholder="Search" 
-                                aria-label="Search" 
-                                style={{ 
-                                    borderTopRightRadius: '0',
-                                    borderBottomRightRadius: '0',
-                                    borderRight: 'none'
-                                }} 
-                            />
-                            <button 
-                                type="submit" 
-                                className="btn btn-danger"
-                                style={{ 
-                                    borderTopLeftRadius: '0',
-                                    borderBottomLeftRadius: '0',
-                                    padding: '6px 12px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center'
-                                }}
-                            >
-                                <i className="bi bi-search text-white"></i>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+        <div style={{ backgroundColor: '#333333' }}>
 
-            {/* Hero Section */}
+            {/* Header Body */}
             <div className="hero-section" style={{
                 backgroundImage: `url(${pizza1})`,
                 backgroundSize: 'cover',
@@ -80,12 +31,15 @@ export default function Home() {
                     bottom: 0,
                     backgroundColor: 'rgba(0,0,0,0.4)'
                 }}></div>
+
                 <div className="text-center text-white" style={{ position: 'relative', zIndex: 2 }}>
                     <h1 style={{ fontSize: '48px', fontWeight: 'bold', marginBottom: '20px' }}>Neapolitan Pizza</h1>
                     <p style={{ fontSize: '18px', maxWidth: '600px', margin: '0 auto' }}>
                         If you are looking for a traditional Italian pizza, the Neapolitan is the best option!
                     </p>
                 </div>
+
+
                 <div style={{
                     position: 'absolute',
                     left: '20px',
@@ -99,42 +53,12 @@ export default function Home() {
                 </div>
             </div>
 
-            {/* Our Menu Section */}
+            {/* Menu Body */}
             <div className="container py-5">
                 <h2 className="text-white mb-5" style={{ fontSize: '36px', fontWeight: 'bold' }}>Our Menu</h2>
                 <div className="row">
-                    <div className="col-md-3 mb-4">
-                        <div className="card" style={{ backgroundColor: 'white', borderRadius: '10px', overflow: 'hidden' }}>
-                            <div style={{ position: 'relative' }}>
-                                <img 
-                                    src={pizza2} 
-                                    className="card-img-top" 
-                                    alt="Margherita Pizza"
-                                    style={{ height: '200px', objectFit: 'cover' }}
-                                />
-                                <span style={{
-                                    position: 'absolute',
-                                    top: '10px',
-                                    left: '10px',
-                                    backgroundColor: '#ffc107',
-                                    color: 'black',
-                                    padding: '5px 10px',
-                                    borderRadius: '5px',
-                                    fontSize: '12px',
-                                    fontWeight: 'bold'
-                                }}>SALE</span>
-                            </div>
-                            <div className="card-body">
-                                <h5 className="card-title">Margherita Pizza</h5>
-                                <div className="d-flex align-items-center gap-2">
-                                    <span style={{ textDecoration: 'line-through', color: '#666' }}>$40.00</span>
-                                    <span style={{ color: '#ff6b35', fontWeight: 'bold' }}>$24.00</span>
-                                </div>
-                                <button className="btn btn-dark w-100 mt-3">Buy</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-md-3 mb-4">
+                    
+                    <div className="col-md-4 mb-4">
                         <div className="card" style={{ backgroundColor: 'white', borderRadius: '10px', overflow: 'hidden' }}>
                             <img 
                                 src={pizza3} 
@@ -151,7 +75,7 @@ export default function Home() {
                             </div>
                         </div>
                     </div>
-                    <div className="col-md-3 mb-4">
+                    <div className="col-md-4 mb-4">
                         <div className="card" style={{ backgroundColor: 'white', borderRadius: '10px', overflow: 'hidden' }}>
                             <div style={{ position: 'relative' }}>
                                 <img 
@@ -181,7 +105,7 @@ export default function Home() {
                             </div>
                         </div>
                     </div>
-                    <div className="col-md-3 mb-4">
+                    <div className="col-md-4 mb-4">
                         <div className="card" style={{ backgroundColor: 'white', borderRadius: '10px', overflow: 'hidden' }}>
                             <div style={{ position: 'relative' }}>
                                 <img 
@@ -215,7 +139,7 @@ export default function Home() {
                 </div>
             </div>
 
-            {/* Book Your Table Section */}
+            {/* Order Body */}
             <div className="container py-5">
                 <h2 className="text-white text-center mb-5" style={{ fontSize: '36px', fontWeight: 'bold' }}>Book Your Table</h2>
                 <div className="row justify-content-center">
@@ -259,7 +183,7 @@ export default function Home() {
                                 <button 
                                     className="btn" 
                                     style={{ 
-                                        backgroundColor: '#ffc107', 
+                                        backgroundColor: '#ffd045ff', 
                                         color: 'black', 
                                         padding: '12px 40px',
                                         fontSize: '16px',

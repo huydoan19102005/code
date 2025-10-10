@@ -6,7 +6,6 @@ export default function HomePage() {
     return (
         <div>
             <HomeCarousel />
-            {/* Bạn có thể thêm các section tiếp theo của trang Home ở dưới */}
             <div className="container-fluid mt-5">
                 <div className="row">
                     <div className="col-12">
