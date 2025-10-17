@@ -1,50 +1,72 @@
-// src/components/SearchItem.jsx
-import React, { useMemo, useState } from 'react';
-import { Card, Form, InputGroup, ListGroup } from 'react-bootstrap';
+import React, { useState } from 'react';
 
 const data = [
-  { id: 1, name: 'Apple Juice', price: 30 },
-  { id: 2, name: 'Banana Smoothie', price: 40 },
-  { id: 3, name: 'Cappuccino', price: 50 },
-  { id: 4, name: 'Donut', price: 20 },
-  { id: 5, name: 'Espresso', price: 45 },
+  { id: 1, name: 'Apple', category: 'Fruit' },
+  { id: 2, name: 'Carrot', category: 'Vegetable' },
+  { id: 3, name: 'Banana', category: 'Fruit' },
+  { id: 4, name: 'Broccoli', category: 'Vegetable' },
 ];
 
-export default function SearchItem() {
+function SearchItem() {
   const [searchTerm, setSearchTerm] = useState('');
-
-  const filtered = useMemo(() => {
-    const term = searchTerm.trim().toLowerCase();
-    if (!term) return data;
-    return data.filter(x => x.name.toLowerCase().includes(term));
-  }, [searchTerm]);
+  const filteredList = data.filter(item =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
-    <Card className="m-3">
-      <Card.Body>
-        <Card.Title>Exercise 5 – SearchItem</Card.Title>
-
-        <InputGroup className="mb-3">
-          <InputGroup.Text>Search</InputGroup.Text>
-          <Form.Control
-            placeholder="Type to filter by name..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </InputGroup>
-
-        {filtered.length === 0 ? (
-          <p>No results found.</p>
-        ) : (
-          <ListGroup>
-            {filtered.map(item => (
-              <ListGroup.Item key={item.id}>
-                {item.name} — ${item.price}
-              </ListGroup.Item>
-            ))}
-          </ListGroup>
+    <div
+      style={{
+        maxWidth: 400,
+        margin: '40px auto',
+        padding: '24px',
+        borderRadius: '12px',
+        boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+        background: '#f7fafd',
+      }}
+    >
+      <h3 style={{ textAlign: 'center', color: '#1976d2', marginBottom: 24 }}>
+        Tìm kiếm theo tên
+      </h3>
+      <input
+        type="text"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        placeholder="Tìm kiếm theo tên..."
+        style={{
+          width: '100%',
+          padding: '10px 14px',
+          borderRadius: '8px',
+          border: '1.5px solid #90caf9',
+          marginBottom: 18,
+          fontSize: 16,
+          outline: 'none',
+          boxSizing: 'border-box',
+        }}
+      />
+      <ul style={{ paddingLeft: 0, listStyle: 'none', margin: 0 }}>
+        {filteredList.map(item => (
+          <li
+            key={item.id}
+            style={{
+              background: '#e3f2fd',
+              marginBottom: 10,
+              padding: '10px 14px',
+              borderRadius: '7px',
+              fontSize: 16,
+              color: '#333',
+              boxShadow: '0 1px 4px rgba(33,150,243,0.07)',
+            }}
+          >
+            <span style={{ fontWeight: 600 }}>{item.name}</span> <span style={{ color: '#1976d2' }}>({item.category})</span>
+          </li>
+        ))}
+        {filteredList.length === 0 && (
+          <li style={{ color: '#888', textAlign: 'center', padding: '10px 0' }}>
+            Không tìm thấy kết quả
+          </li>
         )}
-      </Card.Body>
-    </Card>
+      </ul>
+    </div>
   );
 }
+export default SearchItem;

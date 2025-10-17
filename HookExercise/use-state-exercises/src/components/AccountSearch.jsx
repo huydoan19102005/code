@@ -1,13 +1,13 @@
-// src/components/AccountSearch.jsx
+
 import React, { useMemo, useState } from 'react';
 import { Card, Col, Form, InputGroup, Row } from 'react-bootstrap';
 
 const accounts = [
-  { id: 1, username: 'alice', password: '******', avatar: 'https://i.pravatar.cc/100?img=1' },
-  { id: 2, username: 'bob', password: '******', avatar: 'https://i.pravatar.cc/100?img=2' },
-  { id: 3, username: 'charlie', password: '******', avatar: 'https://i.pravatar.cc/100?img=3' },
-  { id: 4, username: 'dave', password: '******', avatar: 'https://i.pravatar.cc/100?img=4' },
-  { id: 5, username: 'eve', password: '******', avatar: 'https://i.pravatar.cc/100?img=5' },
+  { id: 1, username: 'Thông', password: '******', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face' },
+  { id: 2, username: 'Teò', password: '******', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face' },
+  { id: 3, username: 'hiếu', password: '******', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face' },
+  { id: 4, username: 'Bảo', password: '******', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face' },
+  { id: 5, username: 'trinh', password: '******', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face' },
 ];
 
 export default function AccountSearch() {
@@ -21,7 +21,7 @@ export default function AccountSearch() {
 
   return (
     <Card className="m-3 p-3">
-      <Card.Title>Exercise 6 – Account Search by Username</Card.Title>
+
 
       <InputGroup className="mb-3">
         <InputGroup.Text>Search</InputGroup.Text>

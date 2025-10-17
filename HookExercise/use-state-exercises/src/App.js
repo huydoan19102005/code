@@ -1,4 +1,3 @@
-// src/App.js
 import React from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { Routes, Route, Link } from 'react-router-dom';
@@ -33,7 +32,7 @@ export default function App() {
     <>
       <Navbar expand="lg" bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand as={Link} to="/">useState</Navbar.Brand>
+          <Navbar.Brand as={Link} to="/">UseState</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">

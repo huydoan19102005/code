@@ -1,145 +1,217 @@
-// src/components/RegisterForm.jsx
-import React, { useMemo, useState } from 'react';
-import { Button, Card, Col, Form, Modal, Row, Toast, ToastContainer } from 'react-bootstrap';
-import { isStrongPassword, isValidEmail, isValidUsername } from '../utils/validation';
+import React, { useState, useMemo } from 'react';
+import { Form, Button, Card, Container, Row, Col, Modal, Toast } from 'react-bootstrap';
 
-export default function RegisterForm() {
+// Regex helpers
+const isEmail = (v) => /\S+@\S+\.[A-Za-z]{2,}/.test(v);
+const isUsername = (v) => /^[A-Za-z0-9._]{3,}$/.test(v.trim());
+const isStrongPassword = (v) =>
+  /[A-Z]/.test(v) &&        // có chữ hoa
+  /[a-z]/.test(v) &&        // có chữ thường
+  /\d/.test(v) &&           // có số
+  /[^A-Za-z0-9]/.test(v) && // có ký tự đặc biệt
+  v.length >= 8;            // độ dài
+
+
+function RegisterForm() {
+  // State cho form
   const [form, setForm] = useState({
     username: '',
     email: '',
     password: '',
-    confirm: ''
+    confirm: '',
   });
+  const [errors, setErrors] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [showToast, setShowToast] = useState(false);
 
-  const onChange = (e) => {
+  // Validate từng trường
+  const validate = (field, value) => {
+    switch (field) {
+      case 'username':
+        if (!value.trim()) return 'Username is required';
+        if (!isUsername(value)) return '≥ 3 chars, letters/numbers/._ only, no spaces';
+        return '';
+      case 'email':
+        if (!value.trim()) return 'Email is required';
+        if (!isEmail(value)) return 'Invalid email format';
+        return '';
+      case 'password':
+        if (!value) return 'Password is required';
+        if (!isStrongPassword(value)) return '≥8 chars, upper, lower, number, special';
+        return '';
+      case 'confirm':
+        if (!value) return 'Please confirm password';
+        if (value !== form.password) return 'Passwords do not match';
+        return '';
+      default:
+        return '';
+    }
+  };
+
+  // Memo hóa lỗi cho toàn bộ form
+  const formErrors = useMemo(() => {
+    const e = {};
+    Object.keys(form).forEach((field) => {
+      const err = validate(field, form[field]);
+      if (err) e[field] = err;
+    });
+    return e;
+  }, [form]);
+
+  // Form hợp lệ khi không có lỗi
+  const isValid = Object.keys(formErrors).length === 0;
+
+  // Xử lý thay đổi input
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
+    setForm((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => ({ ...prev, [name]: validate(name, value) }));
   };
 
-  const usernameOk = isValidUsername(form.username);
-  const emailOk = isValidEmail(form.email.trim());
-  const passwordOk = isStrongPassword(form.password);
-  const confirmOk = form.confirm === form.password && form.password.length > 0;
-
-  const allOk = usernameOk && emailOk && passwordOk && confirmOk;
-
-  const submit = (e) => {
+  // Xử lý submit
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (!allOk) return;
-    setShowToast(true);
-    setShowModal(true);
+    // Kiểm tra lại toàn bộ lỗi
+    const newErrors = {};
+    Object.keys(form).forEach((field) => {
+      const err = validate(field, form[field]);
+      if (err) newErrors[field] = err;
+    });
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length === 0) {
+      setShowToast(true);
+      setShowModal(true);
+    }
   };
 
-  const cancel = () => {
+  // Xử lý reset form
+  const handleCancel = () => {
     setForm({ username: '', email: '', password: '', confirm: '' });
+    setErrors({});
+    setShowToast(false);
+    setShowModal(false);
   };
-
-  const feedback = useMemo(() => ({
-    username: usernameOk ? null : 'Username must be ≥ 3 and only letters/digits/_/.',
-    email: emailOk ? null : 'Invalid email address.',
-    password: passwordOk ? null : 'Password ≥ 8 with upper, lower, digit, special.',
-    confirm: confirmOk ? null : 'Confirm must match password.'
-  }), [usernameOk, emailOk, passwordOk, confirmOk]);
 
   return (
-    <Card className="m-3 p-3">
-      <Card.Title>Exercise 7 – Register Form</Card.Title>
-      <Form onSubmit={submit} noValidate>
-        <Row>
-          <Col md={6}>
-            <Form.Group className="mb-3">
-              <Form.Label>Username</Form.Label>
-              <Form.Control
-                name="username"
-                value={form.username}
-                onChange={onChange}
-                isInvalid={!!feedback.username}
-                placeholder="Enter username"
-              />
-              <Form.Control.Feedback type="invalid">
-                {feedback.username}
-              </Form.Control.Feedback>
-            </Form.Group>
-          </Col>
-          <Col md={6}>
-            <Form.Group className="mb-3">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={onChange}
-                isInvalid={!!feedback.email}
-                placeholder="you@example.com"
-              />
-              <Form.Control.Feedback type="invalid">
-                {feedback.email}
-              </Form.Control.Feedback>
-            </Form.Group>
-          </Col>
-        </Row>
-
-        <Row>
-          <Col md={6}>
-            <Form.Group className="mb-3">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                name="password"
-                value={form.password}
-                onChange={onChange}
-                isInvalid={!!feedback.password}
-                placeholder="Enter strong password"
-              />
-              <Form.Control.Feedback type="invalid">
-                {feedback.password}
-              </Form.Control.Feedback>
-            </Form.Group>
-          </Col>
-          <Col md={6}>
-            <Form.Group className="mb-3">
-              <Form.Label>Confirm Password</Form.Label>
-              <Form.Control
-                type="password"
-                name="confirm"
-                value={form.confirm}
-                onChange={onChange}
-                isInvalid={!!feedback.confirm}
-                placeholder="Re-enter password"
-              />
-              <Form.Control.Feedback type="invalid">
-                {feedback.confirm}
-              </Form.Control.Feedback>
-            </Form.Group>
-          </Col>
-        </Row>
-
-        <div className="d-flex gap-2">
-          <Button type="submit" disabled={!allOk}>Submit</Button>
-          <Button variant="outline-secondary" type="button" onClick={cancel}>Cancel</Button>
-        </div>
-      </Form>
-
-      <ToastContainer position="bottom-end" className="p-3">
-        <Toast bg="success" onClose={() => setShowToast(false)} show={showToast} delay={2000} autohide>
-          <Toast.Header closeButton={false}>
-            <strong className="me-auto">Submitted</strong>
-          </Toast.Header>
-          <Toast.Body className="text-white">Submitted successfully!</Toast.Body>
-        </Toast>
-      </ToastContainer>
-
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
+    <Container className="mt-5">
+      <Row className="justify-content-md-center">
+        <Col md={7}>
+          <Card>
+<Card.Header>
+              <h3 className="text-center">Sign Up</h3>
+            </Card.Header>
+            <Card.Body>
+              <Form onSubmit={handleSubmit}>
+                <Form.Group controlId="username" className="mb-3">
+                  <Form.Label>Username</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="username"
+                    value={form.username}
+                    onChange={handleChange}
+                    isInvalid={!!errors.username}
+                    placeholder="Enter username"
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.username}
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group controlId="email" className="mb-3">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control
+                    type="email"
+                    name="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    isInvalid={!!errors.email}
+                    placeholder="Enter email"
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.email}
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group controlId="password" className="mb-3">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    name="password"
+                    value={form.password}
+                    onChange={handleChange}
+                    isInvalid={!!errors.password}
+                    placeholder="Enter password"
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.password}
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group controlId="confirm" className="mb-3">
+                  <Form.Label>Confirm Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    name="confirm"
+                    value={form.confirm}
+                    onChange={handleChange}
+                    isInvalid={!!errors.confirm}
+                    placeholder="Confirm password"
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.confirm}
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <div className="d-flex gap-2">
+                  <Button variant="primary" type="submit" disabled={!isValid} className="w-100">
+                    Submit
+                  </Button>
+                  <Button variant="outline-secondary" type="button" onClick={handleCancel} className="w-100">
+                    Cancel
+                  </Button>
+                </div>
+              </Form>
+            </Card.Body>
+          </Card>
+</Col>
+      </Row>
+      {/* Toast thông báo submit thành công */}
+      <Toast
+        show={showToast}
+        onClose={() => setShowToast(false)}
+        delay={2000}
+        autohide
+        style={{
+          position: 'fixed',
+          top: 20,
+          right: 20,
+          minWidth: 220,
+          zIndex: 9999,
+        }}
+      >
+        <Toast.Header>
+          <strong className="me-auto text-success">Success</strong>
+        </Toast.Header>
+        <Toast.Body>Submitted successfully!</Toast.Body>
+      </Toast>
+      {/* Modal hiển thị thông tin đã submit */}
+      <Modal show={showModal} onHide={handleCancel} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Submitted Data</Modal.Title>
+          <Modal.Title>Sign Up Info</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p><strong>Username:</strong> {form.username}</p>
-          <p><strong>Email:</strong> {form.email}</p>
+          <Card>
+            <Card.Body>
+              <p><strong>Username:</strong> {form.username}</p>
+              <p><strong>Email:</strong> {form.email}</p>
+              <p><strong>Password:</strong> {form.password}</p>
+            </Card.Body>
+          </Card>
         </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCancel}>
+            Close
+          </Button>
+        </Modal.Footer>
       </Modal>
-    </Card>
+    </Container>
   );
 }
+
+export default RegistForm;
