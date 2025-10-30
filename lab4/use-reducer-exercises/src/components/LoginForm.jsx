@@ -136,9 +136,12 @@ function LoginForm({ onSubmit }) {
                     {errors.password}
                   </Form.Control.Feedback>
                 </Form.Group>
-                <Button variant="primary" type="submit" className="w-100">
+
+                <Button variant="primary" type="submit" >
                   Login
-                </Button>
+                </Button> 
+
+                
               </Form>
             </Card.Body>
           </Card>

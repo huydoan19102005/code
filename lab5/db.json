@@ -1,0 +1,348 @@
+{
+  "accounts": [
+    {
+      "id": "1",
+      "username": "admin",
+      "password": "123456",
+      "fullName": "Administrator"
+    },
+    {
+      "id": "2",
+      "username": "user",
+      "password": "123456",
+      "fullName": "User One"
+    }
+  ],
+  "genres": [
+    {
+      "id": "1",
+      "name": "Action"
+    },
+    {
+      "id": "2",
+      "name": "Drama"
+    },
+    {
+      "id": "3",
+      "name": "Comedy"
+    },
+    {
+      "id": "4",
+      "name": "Sci-Fi"
+    },
+    {
+      "id": "5",
+      "name": "Thriller"
+    },
+    {
+      "id": "6",
+      "name": "Romance"
+    },
+    {
+      "id": "7",
+      "name": "Animation"
+    },
+    {
+      "id": "8",
+      "name": "Adventure"
+    },
+    {
+      "id": "9",
+      "name": "Fantasy"
+    },
+    {
+      "id": "10",
+      "name": "Horror"
+    },
+    {
+      "id": "11",
+      "name": "Mystery"
+    },
+    {
+      "id": "12",
+      "name": "Biography"
+    }
+  ],
+  "movies": [
+    {
+      "id": "1",
+      "title": "Interstellar",
+      "year": 2014,
+      "duration": 169,
+      "genreId": 4
+    },
+    {
+      "id": "2",
+      "title": "The Martian",
+      "year": 2015,
+      "duration": 144,
+      "genreId": 4
+    },
+    {
+      "id": "3",
+      "title": "Parasite",
+      "year": 2019,
+      "duration": 132,
+      "genreId": 2
+    },
+    {
+      "id": "4",
+      "title": "Edge of Tomorrow",
+      "year": 2014,
+      "duration": 113,
+      "genreId": 4
+    },
+    {
+      "id": "5",
+      "title": "John Wick",
+      "year": 2014,
+      "duration": 101,
+      "genreId": 1
+    },
+    {
+      "id": "6",
+      "title": "Rush Hour",
+      "year": 1998,
+      "duration": 98,
+      "genreId": 3
+    },
+    {
+      "id": "7",
+      "title": "Inception",
+      "year": 2010,
+      "duration": 148,
+      "genreId": 4
+    },
+    {
+      "id": "8",
+      "title": "Gravity",
+      "year": 2013,
+      "duration": 91,
+      "genreId": 4
+    },
+    {
+      "id": "9",
+      "title": "Blade Runner 2049",
+      "year": 2017,
+      "duration": 164,
+      "genreId": 4
+    },
+    {
+      "id": "10",
+      "title": "Mad Max: Fury Road",
+      "year": 2015,
+      "duration": 120,
+      "genreId": 1
+    },
+    {
+      "id": "11",
+      "title": "Arrival",
+      "year": 2016,
+      "duration": 116,
+      "genreId": 4
+    },
+    {
+      "id": "12",
+      "title": "Guardians of the Galaxy",
+      "year": 2014,
+      "duration": 121,
+      "genreId": 8
+    },
+    {
+      "id": "13",
+      "title": "The Dark Knight",
+      "year": 2008,
+      "duration": 152,
+      "genreId": 1
+    },
+    {
+      "id": "14",
+      "title": "Joker",
+      "year": 2019,
+      "duration": 122,
+      "genreId": 2
+    },
+    {
+      "title": "Forrest Gump",
+      "year": 1994,
+      "duration": 140,
+      "genreId": 2,
+      "id": "15"
+    },
+    {
+      "id": "16",
+      "title": "La La Land",
+      "year": 2016,
+      "duration": 128,
+      "genreId": 6
+    },
+    {
+      "id": "17",
+      "title": "The Grand Budapest Hotel",
+      "year": 2014,
+      "duration": 100,
+      "genreId": 3
+    },
+    {
+      "id": "18",
+      "title": "The Hangover",
+      "year": 2009,
+      "duration": 100,
+      "genreId": 3
+    },
+    {
+      "id": "19",
+      "title": "Superbad",
+      "year": 2007,
+      "duration": 113,
+      "genreId": 3
+    },
+    {
+      "id": "20",
+      "title": "The Truman Show",
+      "year": 1998,
+      "duration": 103,
+      "genreId": 3
+    },
+    {
+      "id": "21",
+      "title": "Her",
+      "year": 2013,
+      "duration": 126,
+      "genreId": 4
+    },
+    {
+      "id": "22",
+      "title": "Ex Machina",
+      "year": 2014,
+      "duration": 108,
+      "genreId": 4
+    },
+    {
+      "id": "23",
+      "title": "Dune",
+      "year": 2021,
+      "duration": 155,
+      "genreId": 4
+    },
+    {
+      "id": "24",
+      "title": "Tenet",
+      "year": 2020,
+      "duration": 150,
+      "genreId": 4
+    },
+    {
+      "id": "25",
+      "title": "The Prestige",
+      "year": 2006,
+      "duration": 130,
+      "genreId": 2
+    },
+    {
+      "id": "26",
+      "title": "Whiplash",
+      "year": 2014,
+      "duration": 106,
+      "genreId": 2
+    },
+    {
+      "id": "27",
+      "title": "1917",
+      "year": 2019,
+      "duration": 119,
+      "genreId": 2
+    },
+    {
+      "id": "28",
+      "title": "The Revenant",
+      "year": 2015,
+      "duration": 156,
+      "genreId": 2
+    },
+    {
+      "id": "29",
+      "title": "The Imitation Game",
+      "year": 2014,
+      "duration": 114,
+      "genreId": 12
+    },
+    {
+      "id": "30",
+      "title": "Kingsman: The Secret Service",
+      "year": 2014,
+      "duration": 129,
+      "genreId": 1
+    },
+    {
+      "id": "31",
+      "title": "Deadpool",
+      "year": 2016,
+      "duration": 108,
+      "genreId": 3
+    },
+    {
+      "id": "32",
+      "title": "Thor: Ragnarok",
+      "year": 2017,
+      "duration": 130,
+      "genreId": 9
+    },
+    {
+      "id": "33",
+      "title": "Spider-Man: Homecoming",
+      "year": 2017,
+      "duration": 133,
+      "genreId": 8
+    },
+    {
+      "id": "34",
+      "title": "Ant-Man",
+      "year": 2015,
+      "duration": 117,
+      "genreId": 8
+    },
+    {
+      "id": "35",
+      "title": "Doctor Strange",
+      "year": 2016,
+      "duration": 115,
+      "genreId": 9
+    },
+    {
+      "id": "36",
+      "title": "The Matrix",
+      "year": 1999,
+      "duration": 136,
+      "genreId": 4
+    },
+    {
+      "id": "37",
+      "title": "The Matrix Reloaded",
+      "year": 2003,
+      "duration": 138,
+      "genreId": 4
+    },
+    {
+      "id": "38",
+      "title": "The Matrix Revolutions",
+      "year": 2003,
+      "duration": 129,
+      "genreId": 4
+    },
+    {
+      "id": "39",
+      "title": "Toy Story 3",
+      "year": 2010,
+      "duration": 103,
+      "genreId": 7
+    },
+    {
+      "id": "40",
+      "title": "Finding Nemo",
+      "year": 2003,
+      "duration": 100,
+      "genreId": 7
+    }
+  ]
+}
