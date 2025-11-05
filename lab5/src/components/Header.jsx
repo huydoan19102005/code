@@ -1,24 +1,35 @@
 import React from 'react';
+import { Navbar, Container, Nav, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuthDispatch, useAuthState } from '../contexts/AuthContext';
 
-export default function Header() {
-  const { user, logout } = useAuth();
+const Header = () => {
+  const { user } = useAuthState();
+  const { logout } = useAuthDispatch();
   return (
-    <nav className="navbar navbar-light bg-light mb-3">
-      <div className="container-fluid">
-        <Link className="navbar-brand" to="/">Movie Manager</Link>
-        <div className="d-flex align-items-center gap-2">
-          {user ? (
-            <>
-              <span>Signed in as <strong>{user.fullName || user.username}</strong></span>
-              <button className="btn btn-outline-secondary btn-sm" onClick={logout}>Logout</button>
-            </>
-          ) : (
-            <Link className="btn btn-primary btn-sm" to="/login">Login</Link>
-          )}
-        </div>
-      </div>
-    </nav>
+    <Navbar bg="light" expand="lg">
+      <Container>
+        <Navbar.Brand as={Link} to="/">Movies</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link as={Link} to="/movies">Movie Manager</Nav.Link>
+          </Nav>
+          <div className="d-flex align-items-center gap-2">
+            {user ? (
+              <>
+                <span>Xin chào, <strong>{user.name}</strong></span>
+                <Button variant="outline-danger" size="sm" onClick={logout}>Đăng xuất</Button>
+              </>
+            ) : (
+              <Button as={Link} to="/login" variant="primary" size="sm">Đăng nhập</Button>
+            )}
+          </div>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
-}
+};
+
+export default Header;
+

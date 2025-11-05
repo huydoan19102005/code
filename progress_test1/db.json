@@ -1,0 +1,49 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "nam123",
+      "password": "123456",
+      "fullName": "Nguyễn Văn Nam"
+    },
+    {
+      "id": "2",
+      "username": "hainguyen",
+      "password": "123456",
+      "fullName": "Nguyễn Hải"
+    }
+  ],
+  "payments": [
+    {
+      "id": "1",
+      "userId": "1",
+      "semester": "Fall 2025",
+      "courseName": "Web Development",
+      "amount": 3500000,
+      "date": "2025-09-25"
+    },
+    {
+      "semester": "Fall 2025",
+      "courseName": "Database Systems",
+      "amount": 3000000,
+      "date": "2025-10-05",
+      "id": "2"
+    },
+    {
+      "id": "3",
+      "userId": "2",
+      "semester": "Fall 2025",
+      "courseName": "Mobile Programming",
+      "amount": 4200000,
+      "date": "2025-10-10"
+    },
+    {
+      "id": "e2cd",
+      "semester": "Fall 2025",
+      "courseName": "Digital Marketing 2024",
+      "amount": 34567,
+      "date": "2025-11-05",
+      "userId": "1"
+    }
+  ]
+}

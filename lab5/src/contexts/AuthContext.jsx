@@ -1,34 +1,58 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { loginApi } from '../api/auth';
+import movieApi from '../api/movieAPI';
 
-const AuthContext = createContext(null);
-export const useAuth = () => useContext(AuthContext);
-const KEY = 'auth_user';
+const AuthStateContext = createContext({ user: null, loading: false });
+const AuthDispatchContext = createContext({ login: async () => {}, logout: () => {} });
 
-export default function AuthProvider({ children }) {
+export const useAuthState = () => useContext(AuthStateContext);
+export const useAuthDispatch = () => useContext(AuthDispatchContext);
+
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(KEY);
-      if (raw) setUser(JSON.parse(raw));
-    } catch {}
-    setLoading(false);
+    const stored = localStorage.getItem('auth_user');
+    if (stored) {
+      try { setUser(JSON.parse(stored)); } catch { setUser(null); }
+    }
   }, []);
 
-  async function login(username, password) {
-    const u = await loginApi(username, password);
-    setUser(u);
-    localStorage.setItem(KEY, JSON.stringify(u));
-    return u;
-  }
+  const login = async (username, password) => {
+    setLoading(true);
+    try {
+      const res = await movieApi.get('/accounts', { params: { username, password } });
+      const found = Array.isArray(res.data) && res.data.length > 0 ? res.data[0] : null;
+      if (!found) {
+        throw new Error('Tài khoản hoặc mật khẩu không đúng');
+      }
+      const authUser = { id: found.id, username: found.username, name: found.name, role: found.role };
+      setUser(authUser);
+      localStorage.setItem('auth_user', JSON.stringify(authUser));
+      return { success: true };
+    } catch (e) {
+      return { success: false, message: e.message || 'Đăng nhập thất bại' };
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  function logout() {
+  const logout = () => {
     setUser(null);
-    localStorage.removeItem(KEY);
-  }
+    localStorage.removeItem('auth_user');
+  };
 
-  const value = useMemo(() => ({ user, loading, login, logout }), [user, loading]);
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}
+  const stateValue = useMemo(() => ({ user, loading }), [user, loading]);
+  const dispatchValue = useMemo(() => ({ login, logout }), []);
+
+  return (
+    <AuthStateContext.Provider value={stateValue}>
+      <AuthDispatchContext.Provider value={dispatchValue}>
+        {children}
+      </AuthDispatchContext.Provider>
+    </AuthStateContext.Provider>
+  );
+};
+
+export default AuthProvider;
+

@@ -1,24 +1,24 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Header from './components/Header.jsx';
-import Login from './pages/Login.jsx';
-import MovieManager from './pages/MovieManager.jsx';
-import ProtectedRoute from './routes/ProtectedRoute.jsx';
+import './App.css';
+import React from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import Header from './components/Header';
+import MovieManager from './pages/MovieManager';
+import Login from './pages/Login';
+import { useAuthState } from './contexts/AuthContext';
 
-export default function App() {
+const App = () => {
+  const { user } = useAuthState();
   return (
-    <BrowserRouter>
+    <div className="App">
       <Header />
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <MovieManager />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/movies" element={user ? <MovieManager /> : <Navigate to="/login" replace />} />
+        <Route path="/" element={<Navigate to={user ? '/movies' : '/login'} replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </BrowserRouter>
+    </div>
   );
-}
+};
+
+export default App;

@@ -1,96 +1,102 @@
-import React, {
-  createContext, useContext, useEffect, useMemo, useState, useCallback
-} from 'react';
-import { MoviesAPI, GenresAPI } from '../api/movies';
+import React, { createContext, useReducer, useContext, useEffect, useCallback, useRef } from 'react';
+import { movieReducer, initialMovieState } from '../reducers/movieReducers';
+import movieApi from '../api/movieAPI';
 
-const MovieContext = createContext(null);
-export const useMovies = () => useContext(MovieContext);
+export const MovieStateContext = createContext(initialMovieState);
+export const MovieDispatchContext = createContext(null);
 
-export default function MovieProvider({ children }) {
-  const [movies, setMovies] = useState([]);
-  const [genres, setGenres] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+export const useMovieState = () => useContext(MovieStateContext);
+export const useMovieDispatch = () => useContext(MovieDispatchContext);
 
-  // bộ lọc / sort
-  const [q, setQ] = useState('');
-  const [genreId, setGenreId] = useState('');
-  const [sort, setSort] = useState('year');
-  const [order, setOrder] = useState('desc');
+export const MovieProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(movieReducer, initialMovieState);
+  const stateRef = useRef(state);
 
-  // form
-  const [form, setForm] = useState({ id: null, title: '', year: '', duration: '', genreId: '' });
-  const isEditing = !!form.id;
-
-  const fetchGenres = useCallback(async () => {
-    setGenres(await GenresAPI.list());
-  }, []);
+  useEffect(() => {
+    stateRef.current = state;
+  }, [state]);
 
   const fetchMovies = useCallback(async () => {
+    dispatch({ type: 'START_LOADING' });
     try {
-      setLoading(true);
-      setError('');
-      // gọi server có title_like
-      const serverData = await MoviesAPI.list({
-        q,
-        genreId: genreId || undefined,
-        _sort: sort,
-        _order: order
-      });
-
-      // Fallback filter ở client (phòng khi JSON Server không lọc do tham số sai/cache)
-      let data = serverData;
-      if (q && q.trim()) {
-        const needle = q.trim().toLowerCase();
-        data = serverData.filter(m => String(m.title || '').toLowerCase().includes(needle));
+      const { filters } = stateRef.current;
+      const params = {};
+      if (filters.q) params.q = filters.q;
+      if (filters.genreId) params.genreId = filters.genreId;
+      if (filters.durationMin) params.duration_gte = filters.durationMin;
+      if (filters.durationMax) params.duration_lte = filters.durationMax;
+      if (filters.sort) {
+        params._sort = 'title';
+        params._order = filters.sort === 'asc' ? 'asc' : 'desc';
       }
-      setMovies(data);
-    } catch (e) {
-      setError(e?.message || 'Load movies failed');
-    } finally {
-      setLoading(false);
+      const response = await movieApi.get('/movies', { params });
+      dispatch({ type: 'SET_MOVIES', payload: response.data });
+    } catch (error) {
+      console.error('Lỗi khi tải danh sách phim:', error);
+      dispatch({ type: 'SET_MOVIES', payload: [] });
     }
-  }, [q, genreId, sort, order]);
+  }, []);
 
-  useEffect(() => { fetchGenres(); }, [fetchGenres]);
-  useEffect(() => { fetchMovies(); }, [fetchMovies]); // q/genreId/sort/order đổi là gọi lại
-
-  const saveMovie = useCallback(async (e) => {
-    e?.preventDefault?.();
-    const payload = {
-      title: String(form.title || '').trim(),
-      year: Number(form.year),
-      duration: Number(form.duration),
-      genreId: Number(form.genreId)
-    };
-    if (!payload.title || !payload.year || !payload.duration || !payload.genreId) {
-      alert('Vui lòng nhập đủ trường'); return;
-    }
-    setLoading(true);
+  const fetchGenres = useCallback(async () => {
     try {
-      if (isEditing) await MoviesAPI.update(form.id, payload);
-      else           await MoviesAPI.create(payload);
-      setForm({ id: null, title: '', year: '', duration: '', genreId: '' });
-      await fetchMovies();
-    } finally { setLoading(false); }
-  }, [form, isEditing, fetchMovies]);
+      const response = await movieApi.get('/genres');
+      dispatch({ type: 'SET_GENRES', payload: response.data });
+    } catch (error) {
+      console.error('Lỗi khi tải danh sách thể loại:', error);
+      dispatch({ type: 'SET_GENRES', payload: [] });
+    }
+  }, []);
 
-  const startEdit = useCallback((m) =>
-    setForm({ id: m.id, title: m.title, year: m.year, duration: m.duration, genreId: m.genreId }), []);
-  const cancelEdit = useCallback(() =>
-    setForm({ id: null, title: '', year: '', duration: '', genreId: '' }), []);
-  const removeMovie = useCallback(async (id) => {
-    if (!window.confirm('Xoá phim này?')) return;
-    setLoading(true);
-    try { await MoviesAPI.remove(id); await fetchMovies(); }
-    finally { setLoading(false); }
+  const confirmDelete = useCallback(async (id) => {
+    dispatch({ type: 'CLOSE_DELETE_MODAL' });
+    dispatch({ type: 'START_LOADING' });
+    try {
+      await movieApi.delete(`/movies/${id}`);
+      fetchMovies();
+    } catch (error) {
+      console.error('Lỗi khi xóa phim:', error);
+      fetchMovies();
+    }
   }, [fetchMovies]);
 
-  const value = useMemo(() => ({
-    movies, genres, loading, error,
-    q, setQ, genreId, setGenreId, sort, setSort, order, setOrder,
-    form, setForm, isEditing, saveMovie, startEdit, cancelEdit, removeMovie
-  }), [movies, genres, loading, error, q, genreId, sort, order, form, isEditing, saveMovie, startEdit, cancelEdit, removeMovie]);
+  const handleCreateOrUpdate = useCallback(async (dataToSend, isEditing, isEditingId) => {
+    dispatch({ type: 'START_LOADING' });
+    try {
+      if (isEditing) {
+        await movieApi.put(`/movies/${isEditingId}`, dataToSend);
+      } else {
+        await movieApi.post('/movies', dataToSend);
+      }
+      dispatch({ type: 'RESET_FORM' });
+      fetchMovies();
+      return true;
+    } catch (error) {
+      console.error('Lỗi thao tác CREATE/UPDATE:', error);
+      fetchMovies();
+      return false;
+    }
+  }, [fetchMovies]);
 
-  return <MovieContext.Provider value={value}>{children}</MovieContext.Provider>;
-}
+  useEffect(() => {
+    fetchMovies();
+    fetchGenres();
+  }, [fetchMovies, fetchGenres]);
+
+  const dispatchValue = {
+    dispatch,
+    fetchMovies,
+    fetchGenres,
+    confirmDelete,
+    handleCreateOrUpdate
+  };
+
+  return (
+    <MovieStateContext.Provider value={state}>
+      <MovieDispatchContext.Provider value={dispatchValue}>
+        {children}
+      </MovieDispatchContext.Provider>
+    </MovieStateContext.Provider>
+  );
+};
+
+

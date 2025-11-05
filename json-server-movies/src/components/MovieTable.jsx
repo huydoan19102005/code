@@ -12,7 +12,7 @@ const MovieTable = () => {
   const genreMap = {
     1: 'Sci-Fi',
     2: 'Comedy', 
-    3: 'Drama',
+    3: 'Drama',s
     4: 'Horror',
     5: 'Romance',
     6: 'Action',
