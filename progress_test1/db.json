@@ -44,6 +44,22 @@
       "amount": 34567,
       "date": "2025-11-05",
       "userId": "1"
+    },
+    {
+      "id": "43bc",
+      "semester": "Fall 2025",
+      "courseName": "ad",
+      "amount": 3456789,
+      "date": "2025-11-06",
+      "userId": "1"
+    },
+    {
+      "id": "10cb",
+      "semester": "awdawd",
+      "courseName": "rgthjku",
+      "amount": 567890987654,
+      "date": "34455-05-31",
+      "userId": "1"
     }
   ]
 }
