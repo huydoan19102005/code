@@ -18,6 +18,9 @@ const NavigationHeader = () => {
                 <Navbar.Brand href="/home">TuitionTracker</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav.Link onClick={() => navigate('/payments/add')} style={{ color: 'white', cursor: 'pointer' }}>
+                            Create new payment
+                        </Nav.Link>
                     
                     <Nav className="ms-auto">
                         <Navbar.Text className="me-3">
