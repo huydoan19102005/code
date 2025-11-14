@@ -1,11 +1,10 @@
 import { Card, Table, Button } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteExpenseAsync, setEditingExpense, fetchExpenses } from '../store/expensesSlice';
+import { useAuth } from '../context/AuthContext';
+import { useExpenses } from '../context/ExpensesContext';
 
 const ExpenseTable = () => {
-  const dispatch = useDispatch();
-  const { expenses, selectedCategory } = useSelector((state) => state.expenses);
-  const { user } = useSelector((state) => state.auth);
+  const { expenses, selectedCategory, deleteExpense, setEditingExpense, fetchExpenses } = useExpenses();
+  const { user } = useAuth();
 
   // Filter expenses by selected category
   const filteredExpenses =
@@ -32,13 +31,13 @@ const ExpenseTable = () => {
   };
 
   const handleEdit = (expenseId) => {
-    dispatch(setEditingExpense(expenseId));
+    setEditingExpense(expenseId);
   };
 
   const handleDelete = async (expenseId) => {
     if (window.confirm('Are you sure you want to delete this expense?')) {
-      await dispatch(deleteExpenseAsync(expenseId));
-      dispatch(fetchExpenses(user.id));
+      await deleteExpense(expenseId);
+      fetchExpenses(user.id);
     }
   };
 

@@ -11,13 +11,10 @@ const api = axios.create({
 
 // Authentication API
 export const authAPI = {
-  login: async (username, password) => {
+  login: async (usernameOrEmail, password) => {
     const response = await api.get('/users');
-    // Filter on client side since json-server may not handle multiple params well
-    const users = response.data.filter(
-      (u) => u.username === username && u.password === password
-    );
-    return users;
+    // Return all users, filtering will be done in AuthContext
+    return response.data;
   },
 };
 

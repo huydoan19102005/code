@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Card, Form, Button, Alert } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { addExpenseAsync, updateExpenseAsync, setEditingExpense } from '../store/expensesSlice';
-import { fetchExpenses } from '../store/expensesSlice';
+import { useAuth } from '../context/AuthContext';
+import { useExpenses } from '../context/ExpensesContext';
 
 const AddExpenseForm = () => {
-  const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
-  const { expenses, editingExpense } = useSelector((state) => state.expenses);
+  const { user } = useAuth();
+  const { expenses, editingExpense, addExpense, updateExpense, setEditingExpense, fetchExpenses } = useExpenses();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -94,12 +92,12 @@ const AddExpenseForm = () => {
 
     try {
       if (isEditing && editingExpense) {
-        await dispatch(updateExpenseAsync({ id: editingExpense, expense: expenseData }));
-        dispatch(setEditingExpense(null));
+        await updateExpense(editingExpense, expenseData);
+        setEditingExpense(null);
       } else {
-        await dispatch(addExpenseAsync(expenseData));
+        await addExpense(expenseData);
       }
-      dispatch(fetchExpenses(user.id));
+      fetchExpenses(user.id);
       
       // Reset form
       setFormData({
@@ -124,7 +122,7 @@ const AddExpenseForm = () => {
     });
     setErrors({});
     setIsEditing(false);
-    dispatch(setEditingExpense(null));
+    setEditingExpense(null);
   };
 
   // Get unique categories from existing expenses

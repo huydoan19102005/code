@@ -1,25 +1,19 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { useExpenses } from '../context/ExpensesContext';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import TotalExpenses from '../components/TotalExpenses';
 import Filter from '../components/Filter';
 import AddExpenseForm from '../components/AddExpenseForm';
 import ExpenseTable from '../components/ExpenseTable';
-import { fetchExpenses } from '../store/expensesSlice';
-import { loadUserFromStorage } from '../store/authSlice';
 
 const Home = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user, isAuthenticated } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    // Load user from storage on mount
-    dispatch(loadUserFromStorage());
-  }, [dispatch]);
+  const { user, isAuthenticated } = useAuth();
+  const { fetchExpenses } = useExpenses();
 
   useEffect(() => {
     // Redirect if not authenticated
@@ -30,9 +24,9 @@ const Home = () => {
 
     // Fetch expenses for the current user
     if (user?.id) {
-      dispatch(fetchExpenses(user.id));
+      fetchExpenses(user.id);
     }
-  }, [dispatch, navigate, user, isAuthenticated]);
+  }, [navigate, user, isAuthenticated, fetchExpenses]);
 
   if (!isAuthenticated && !user) {
     return null;
@@ -65,4 +59,3 @@ const Home = () => {
 };
 
 export default Home;
-

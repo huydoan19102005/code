@@ -1,66 +1,66 @@
 {
-  "users": [
-    {
-      "id": "1",
-      "username": "anhnv",
-      "password": "admin123",
-      "fullName": "Nguyễn Văn Anh"
-    },
-    {
-      "id": "2",
-      "username": "TamNT",
-      "password": "admin123",
-      "fullName": "Nguyễn Thị Tâm"
-    }
-  ],
-  "expenses": [
-    {
-      "id": "2",
-      "userId": "1",
-      "name": "Electricity Bill",
-      "amount": 450000,
-      "category": "Utilities",
-      "date": "2025-10-03"
-    },
-    {
-      "userId": "1",
-      "name": "Cinema",
-      "amount": 35000000,
-      "category": "Entertainment",
-      "date": "2025-10-05",
-      "id": "3"
-    },
-    {
-      "id": "4",
-      "userId": "1",
-      "name": "Cafe",
-      "amount": 65000,
-      "category": "Food",
-      "date": "2025-10-07"
-    },
-    {
-      "id": "5",
-      "userId": "2",
-      "name": "Breakfast",
-      "amount": 40000,
-      "category": "Food",
-      "date": "2025-10-01"
-    },
-    {
-      "id": "6",
-      "userId": "2",
-      "name": "Internet Bill",
-      "amount": 250000,
-      "category": "Utilities",
-      "date": "2025-10-03"
-    },
-    {
-      "id": "2f08",
-      "userId": "1",
-      "name": "chuối",
-      "amount": 15,
-      "category": "Food",
-      "date": "2005-10-11"
-    }
-  ]
+    "users": [
+        {
+            "id": "1",
+            "username": "anhnv",
+            "password": "admin123",
+            "fullName": "Nguyễn Văn Anh"
+        },
+        {
+            "id": "2",
+            "username": "TamNT",
+            "password": "admin123",
+            "fullName": "Nguyễn Thị Tâm"
+        }
+    ],
+    "expenses": [
+        {
+            "id": "2",
+            "userId": "1",
+            "name": "Electricity Bill",
+            "amount": 450000,
+            "category": "Utilities",
+            "date": "2025-10-03"
+        },
+        {
+            "userId": "1",
+            "name": "Cinema",
+            "amount": 35000000,
+            "category": "Entertainment",
+            "date": "2025-10-05",
+            "id": "3"
+        },
+        {
+            "id": "4",
+            "userId": "1",
+            "name": "Cafe",
+            "amount": 65000,
+            "category": "Food",
+            "date": "2025-10-07"
+        },
+        {
+            "id": "5",
+            "userId": "2",
+            "name": "Breakfast",
+            "amount": 40000,
+            "category": "Food",
+            "date": "2025-10-01"
+        },
+        {
+            "id": "6",
+            "userId": "2",
+            "name": "Internet Bill",
+            "amount": 250000,
+            "category": "Utilities",
+            "date": "2025-10-03"
+        },
+        {
+            "id": "2f08",
+            "userId": "1",
+            "name": "chuối",
+            "amount": 15,
+            "category": "Food",
+            "date": "2005-10-11"
+        }
+    ]
 }

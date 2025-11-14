@@ -1,9 +1,10 @@
 import { Card } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useAuth } from '../context/AuthContext';
+import { useExpenses } from '../context/ExpensesContext';
 
 const TotalExpenses = () => {
-  const { expenses, selectedCategory } = useSelector((state) => state.expenses);
-  const { user } = useSelector((state) => state.auth);
+  const { expenses, selectedCategory } = useExpenses();
+  const { user } = useAuth();
 
   // Filter expenses by current user first
   const userExpenses = expenses.filter(

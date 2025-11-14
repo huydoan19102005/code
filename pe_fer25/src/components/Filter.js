@@ -1,11 +1,10 @@
 import { Card, Form } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedCategory } from '../store/expensesSlice';
+import { useAuth } from '../context/AuthContext';
+import { useExpenses } from '../context/ExpensesContext';
 
 const Filter = () => {
-  const dispatch = useDispatch();
-  const { expenses, selectedCategory } = useSelector((state) => state.expenses);
-  const { user } = useSelector((state) => state.auth);
+  const { expenses, selectedCategory, setSelectedCategory } = useExpenses();
+  const { user } = useAuth();
 
   // Get unique categories for current user
   const userExpenses = expenses.filter(
@@ -14,7 +13,7 @@ const Filter = () => {
   const categories = ['All categories', ...new Set(userExpenses.map((exp) => exp.category))];
 
   const handleCategoryChange = (e) => {
-    dispatch(setSelectedCategory(e.target.value));
+    setSelectedCategory(e.target.value);
   };
 
   return (

@@ -1,10 +1,11 @@
 import React, { useReducer, useState } from 'react';
 import { Form, Button, Card, Container, Row, Col, Alert, Spinner } from 'react-bootstrap';
-import { useAuth } from '../context/AuthContext';
-import ConfirmModal from '../components/ConfirmModal';
-import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
+import ConfirmModal from './ConfirmModal';
+import { useNavigate } from 'react-router-dom'; // Thêm useNavigate để chuyển hướng
 
 // 1. Khởi tạo trạng thái ban đầu cho form
+
 const initialFormState = {
   formData: {
     identifier: '', // username hoặc email
@@ -33,7 +34,7 @@ function formReducer(state, action) {
         errors: { ...state.errors, [action.field]: action.message },
       };
     case 'CLEAR_ERROR':
-      // Xóa lỗi cho trường cụ thể
+        // Sửa lỗi: Xóa lỗi cho trường cụ thể
       const { [action.field]: removed, ...restErrors } = state.errors;
       return {
         ...state,
@@ -61,11 +62,13 @@ function formReducer(state, action) {
   }
 }
 
-function Login() {
-  const navigate = useNavigate();
+function LoginForm() {
+  const navigate = useNavigate(); // Sử dụng useNavigate
+
   // 3. Sử dụng useReducer cho form state
   const [formState, dispatch] = useReducer(formReducer, initialFormState);
-  // 4. Sử dụng AuthContext
+
+  // 4. Sử dụng AuthContext (Giả định AuthContext đã cung cấp đủ các giá trị này)
   const { login, loading, error, clearError, user } = useAuth();
 
   // 5. Validation helpers
@@ -75,10 +78,13 @@ function Login() {
   // 6. Xử lý thay đổi input
   const handleChange = (e) => {
     const { name, value } = e.target;
-    // Cập nhật giá trị field
+
+    // Cập nhật giá trị field (SỬ DỤNG action SET_FIELD đã sửa)
     dispatch({ type: 'SET_FIELD', field: name, value });
-    // Clear auth error khi user nhập
+
+    // Clear auth error khi user nhập (Giả định clearError tồn tại trong useAuth)
     if (error) clearError();
+
     // Validation real-time
     let message = '';
     if (name === 'identifier') {
@@ -88,13 +94,15 @@ function Login() {
         message = 'Email is invalid format.';
       }
     }
+
     if (name === 'password') {
       if (!value.trim()) {
         message = 'Password is required.';
-      } else if (value.length < 6) {
+      } else if (value.length < 6) { // Thêm validation min length 6
         message = 'Password must be at least 6 characters.';
       }
     }
+
     if (message) {
       dispatch({ type: 'SET_ERROR', field: name, message });
     } else {
@@ -105,17 +113,20 @@ function Login() {
   // 7. Validation form
   const validateForm = () => {
     const errors = {};
-    const { identifier, password } = formState.formData;
+    const { identifier, password } = formState.formData; // Lấy từ formData đã sửa
+
     if (!identifier.trim()) {
       errors.identifier = 'Username or Email is required.';
     } else if (isEmail(identifier) && !emailRe.test(identifier)) {
       errors.identifier = 'Email is invalid format.';
     }
+
     if (!password.trim()) {
-      errors.password = 'Password is required.';
+     errors.password = 'Password is required.';
     } else if (password.length < 6) {
       errors.password = 'Password must be at least 6 characters.';
     }
+
     return errors;
   };
 
@@ -123,34 +134,38 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (error) clearError(); // Clear error trước khi submit lại
+
     // Validate form
     const validationErrors = validateForm();
     dispatch({ type: 'SET_ERRORS', errors: validationErrors });
+
     if (Object.keys(validationErrors).length > 0) {
       return;
     }
+
     try {
       // Gọi login từ AuthContext
-      const result = await login({
-        usernameOrEmail: formState.formData.identifier.trim(),
+      const result = await login({ // SỬA LỖI: login cần nhận object {usernameOrEmail, password}
+        usernameOrEmail: formState.formData.identifier.trim(), 
         password: formState.formData.password,
       });
+
       // result.success là cách logic tốt hơn để kiểm tra thành công
-      if (result && result.success) {
+      if (result && result.success) { 
         // Hiển thị modal thành công
         dispatch({ type: 'SHOW_SUCCESS_MODAL' });
       }
+     // Lỗi sẽ được xử lý và hiển thị qua AuthContext error (như "Invalid username/email or password!"[cite: 16])
     } catch (err) {
       // Lỗi mạng hoặc lỗi không xác định
       console.error('Login error:', err);
     }
   };
-
-  // 9. Xử lý reset form
-  const handleReset = () => {
-    // 1. Reset form state về ban đầu
+  //9. Xử lý reset form
+    const handleReset = () => { 
+    //1. Reset form state về ban đầu
     dispatch({ type: 'RESET_FORM' });
-    // 2. Xóa lỗi từ AuthContext nếu có
+    //2. Xóa lỗi từ AuthContext nếu có
     if (error) clearError();
   };
 
@@ -158,8 +173,8 @@ function Login() {
   const handleCloseSuccessModal = () => {
     dispatch({ type: 'HIDE_SUCCESS_MODAL' });
     dispatch({ type: 'RESET_FORM' });
-    // Chuyển hướng đến /home sau khi đóng modal
-    navigate('/home');
+    // Chuyển hướng đến /home sau khi đóng modal[cite: 17]
+    navigate('/home'); 
   };
 
   return (
@@ -171,12 +186,13 @@ function Login() {
               <h3 className="text-center mb-0">Login</h3>
             </Card.Header>
             <Card.Body>
-              {/* Hiển thị lỗi từ AuthContext */}
+              {/* Hiển thị lỗi từ AuthContext ("Invalid username/email or password!")*/}
               {error && (
                 <Alert variant="danger" className="mb-3" onClose={clearError} dismissible>
                   {error}
                 </Alert>
               )}
+              
               <Form onSubmit={handleSubmit} noValidate>
                 {/* Identifier Field */}
                 <Form.Group controlId="identifier" className="mb-3">
@@ -184,7 +200,7 @@ function Login() {
                   <Form.Control
                     type="text"
                     name="identifier"
-                    value={formState.formData.identifier}
+                    value={formState.formData.identifier} // Lấy từ formData
                     onChange={handleChange}
                     isInvalid={!!formState.errors.identifier}
                     placeholder="Enter username or email"
@@ -202,7 +218,7 @@ function Login() {
                   <Form.Control
                     type="password"
                     name="password"
-                    value={formState.formData.password}
+                    value={formState.formData.password} // Lấy từ formData
                     onChange={handleChange}
                     isInvalid={!!formState.errors.password}
                     placeholder="Enter password"
@@ -212,15 +228,12 @@ function Login() {
                   <Form.Control.Feedback type="invalid">
                     {formState.errors.password}
                   </Form.Control.Feedback>
-                  <Form.Text className="text-muted">
-                    (at least 6 characters)
-                  </Form.Text>
                 </Form.Group>
 
                 <div style={{ display: 'flex', gap: 8 }}>
-                  <Button
-                    variant="primary"
-                    type="submit"
+                  <Button 
+                    variant="primary" 
+                    type="submit" 
                     style={{ flex: 1 }}
                     disabled={loading}
                   >
@@ -233,9 +246,9 @@ function Login() {
                       'Login'
                     )}
                   </Button>
-                  <Button
-                    variant="secondary"
-                    type="button"
+                  <Button 
+                    variant="secondary" 
+                    type="button" 
                     style={{ flex: 1 }}
                     onClick={handleReset}
                     disabled={loading}
@@ -243,16 +256,18 @@ function Login() {
                     Cancel
                   </Button>
                 </div>
+                
               </Form>
             </Card.Body>
           </Card>
         </Col>
       </Row>
+
       {/* Modal thông báo thành công, gọi ConfirmModal */}
       <ConfirmModal
         show={formState.showSuccessModal}
         title="Login Successful!"
-        message={`Welcome, ${user?.username || user?.fullName}!, login successful.`}
+        message={`Welcome, ${user?.username}!, login successful.`}
         onConfirm={handleCloseSuccessModal}
         onHide={handleCloseSuccessModal}
       />
@@ -260,4 +275,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginForm;
